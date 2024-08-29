@@ -21,3 +21,4 @@ while True:
             quit()
 
     pg.display.update()
+
