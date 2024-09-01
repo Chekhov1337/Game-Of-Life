@@ -3,7 +3,7 @@ from pygame.locals import *
 import time
 
 GRSZ = 20  # Grid Size
-time_delay = 0.25
+time_delay = 0.1
 BLACK = (78, 78, 78)
 GREY = (100, 100, 100)
 WHITE = (255, 255, 255)
@@ -91,10 +91,17 @@ while running:
     for event in pygame.event.get():
         if event.type == QUIT:
             running = False
+
         elif event.type == pygame.MOUSEBUTTONUP:
-            clk_x, clk_y = pygame.mouse.get_pos()
-            i, j = clk_x // GRSZ, clk_y // GRSZ
-            undead(i, j)
+            if event.button == 1:
+                clk_x, clk_y = pygame.mouse.get_pos()
+                i, j = clk_x // GRSZ, clk_y // GRSZ
+                undead(i, j)
+            elif event.button == 3:
+                clk_x, clk_y = pygame.mouse.get_pos()
+                i, j = clk_x // GRSZ, clk_y // GRSZ
+                dead(i, j)
+
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 for i in range(cells_width):
@@ -106,6 +113,11 @@ while running:
                 else:
                     game_started = True
                 print('Game started' if game_started else 'Game stopped')
+            elif event.key == pygame.K_RIGHT:
+                if time_delay != 0:
+                    time_delay -= 0.1
+            elif event.key == pygame.K_LEFT:
+                time_delay += 0.1
     pygame.display.flip()
 
     pygame.display.update()
