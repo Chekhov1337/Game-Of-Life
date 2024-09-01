@@ -1,8 +1,9 @@
 import pygame
 from pygame.locals import *
 import time
+import random
 
-GRSZ = 20  # Grid Size
+GRSZ = 10  # Grid Size
 time_delay = 0.1
 BLACK = (78, 78, 78)
 GREY = (100, 100, 100)
@@ -11,8 +12,8 @@ WHITE = (255, 255, 255)
 running = True
 game_started = False
 pygame.init()
-cells_width = 60
-cells_height = 35
+cells_width = 120
+cells_height = 70
 window = pygame.display.set_mode((cells_width * GRSZ, cells_height * GRSZ))
 
 
@@ -118,6 +119,15 @@ while running:
                     time_delay -= 0.1
             elif event.key == pygame.K_LEFT:
                 time_delay += 0.1
+            elif event.key == pygame.K_r:
+                for i in range(cells_width):
+                    for j in range(cells_height):
+                        r = random.randint(0,1)
+                        if r == 0:
+                            dead(i, j)
+                        else:
+                            undead(i, j)
+
     pygame.display.flip()
 
     pygame.display.update()
