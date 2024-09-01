@@ -11,21 +11,19 @@ WHITE = (255, 255, 255)
 running = True
 game_started = False
 pygame.init()
-cells_width = 30
-cells_height = 30
+cells_width = 60
+cells_height = 35
 window = pygame.display.set_mode((cells_width * GRSZ, cells_height * GRSZ))
 
 
 def undead(i, j):
     cell_l = field[j][i]
     cell_l.alive = True
-    # alive_cells[cell_l] = True
 
 
 def dead(i, j):
     cell_l = field[j][i]
     cell_l.alive = False
-    # alive_cells.pop(cell_l)
 
 
 def check_neighbours(cell):
@@ -60,8 +58,6 @@ class Cell():
 
 field = [[Cell(False, i, j) for i in range(cells_width)] for j in range(cells_height)]
 new_field = [[Cell(False, i, j) for i in range(cells_width)] for j in range(cells_height)]
-alive_cells = {}
-dead_cells = {}
 
 while running:
     window.fill(GREY)
@@ -71,7 +67,6 @@ while running:
             if cell.alive:
                 square = Rect(cell.cx, cell.cy, GRSZ, GRSZ)
                 pygame.draw.rect(window, WHITE, square)
-                alive_cells[cell] = True
             else:
                 square = Rect(cell.cx, cell.cy, GRSZ, GRSZ)
                 pygame.draw.rect(window, BLACK, square, 1)
@@ -92,6 +87,7 @@ while running:
                 if n not in (2, 3):
                     dead(cell.i, cell.j)
         time.sleep(time_delay)
+
     for event in pygame.event.get():
         if event.type == QUIT:
             running = False
