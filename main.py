@@ -3,22 +3,53 @@ from pygame.locals import *
 import time
 
 GRSZ = 20  # Grid Size
+time_delay = 0.25
 BLACK = (78, 78, 78)
 GREY = (100, 100, 100)
 WHITE = (255, 255, 255)
 
 running = True
+game_started = False
 pygame.init()
-cells_width = 1200 // GRSZ - 5
-cells_height = 800 // GRSZ - 5
+cells_width = 30
+cells_height = 30
 window = pygame.display.set_mode((cells_width * GRSZ, cells_height * GRSZ))
 
 
+def undead(i, j):
+    cell_l = field[j][i]
+    cell_l.alive = True
+    # alive_cells[cell_l] = True
+
+
+def dead(i, j):
+    cell_l = field[j][i]
+    cell_l.alive = False
+    # alive_cells.pop(cell_l)
+
+
+def check_neighbours(cell):
+    i = cell.i
+    j = cell.j
+    n = 0
+    neighbours = [[-1, 1], [0, 1], [1, 1], [-1, 0], [1, 0], [-1, -1], [0, -1], [1, -1]]
+
+    for k, m in neighbours:
+        if 0 <= i + k <= cells_width - 1 and 0 <= j + m <= cells_height - 1:
+            if field[j + m][i + k].alive is True:
+                n += 1
+
+    return n
+
+
 class Cell():
-    def __init__(self, alive=False, x=0, y=0):
+    def __init__(self, alive=False, i=0, j=0):
         self.alive = alive
-        self.cx = x * GRSZ
-        self.cy = y * GRSZ
+        self.i = i
+        self.j = j
+
+        self.cx = i * GRSZ
+        self.cy = j * GRSZ
 
     def __str__(self):
         if self.alive:
@@ -26,64 +57,59 @@ class Cell():
         else:
             return 'X'
 
-    def undead(self):
-        clk_x, clk_y = pygame.mouse.get_pos()
-        i, j = clk_x // GRSZ, clk_y // GRSZ
-        field[j][i].alive = True
-    def dead(self):
-        clk_x, clk_y = pygame.mouse.get_pos()
-        i, j = clk_x // GRSZ, clk_y // GRSZ
-        field[j][i].alive = False
-
-
-class Cube:
-    def update(self):
-        self.cx, self.cy = pygame.mouse.get_pos()
-        self.square = pygame.Rect((self.cx // GRSZ) * GRSZ, (self.cy // GRSZ) * GRSZ, GRSZ, GRSZ)
-
-    def draw(self):
-        pygame.draw.rect(window, 'white', self.square)
-
 
 field = [[Cell(False, i, j) for i in range(cells_width)] for j in range(cells_height)]
-
-cube = Cube()
-drawing_cube = False
-
-cell = Cell()
+new_field = [[Cell(False, i, j) for i in range(cells_width)] for j in range(cells_height)]
+alive_cells = {}
+dead_cells = {}
 
 while running:
     window.fill(GREY)
 
-    # for i in range(0, window.get_height() // GRSZ):
-    #     pygame.draw.line(window, BLACK, (0, i * GRSZ), (window.get_width(), i * GRSZ))
-    #
-    # for j in range(0, window.get_width() // GRSZ):
-    #     pygame.draw.line(window, BLACK, (j * GRSZ, 0), (j * GRSZ, window.get_height()))
-
     for row in field:
         for cell in row:
-            if not cell.alive:
-                square = Rect(cell.cx, cell.cy, GRSZ, GRSZ)
-                pygame.draw.rect(window, BLACK, square, 1)
-            else:
+            if cell.alive:
                 square = Rect(cell.cx, cell.cy, GRSZ, GRSZ)
                 pygame.draw.rect(window, WHITE, square)
+                alive_cells[cell] = True
+            else:
+                square = Rect(cell.cx, cell.cy, GRSZ, GRSZ)
+                pygame.draw.rect(window, BLACK, square, 1)
 
-    # if drawing_cube:
-    #     cube.draw()
-    # pygame.display.flip()
+    if game_started:
 
+        count_neighbours = {}
+        for row in field:
+            for cell in row:
+                count_neighbours[cell] = check_neighbours(cell)
+
+        temp_field = field.copy()
+        for cell, n in count_neighbours.items():
+            if not temp_field[cell.j][cell.i].alive:
+                if n == 3:
+                    undead(cell.i, cell.j)
+            else:
+                if n not in (2, 3):
+                    dead(cell.i, cell.j)
+        time.sleep(time_delay)
     for event in pygame.event.get():
         if event.type == QUIT:
             running = False
         elif event.type == pygame.MOUSEBUTTONUP:
-            if event.button == 1:
-                # cube.update()
-                # drawing_cube = True
-                cell.undead()
-            elif event.button == 3:
-                cell.dead()
+            clk_x, clk_y = pygame.mouse.get_pos()
+            i, j = clk_x // GRSZ, clk_y // GRSZ
+            undead(i, j)
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                for i in range(cells_width):
+                    for j in range(cells_height):
+                        dead(i, j)
+            elif event.key == pygame.K_F1:
+                if game_started:
+                    game_started = False
+                else:
+                    game_started = True
+                print('Game started' if game_started else 'Game stopped')
     pygame.display.flip()
 
     pygame.display.update()
