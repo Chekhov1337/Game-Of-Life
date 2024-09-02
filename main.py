@@ -8,9 +8,9 @@ import random
 import statistics
 
 # Game settings
-GRSZ = 5  # Grid Size
-cells_width = 300
-cells_height = 150
+GRSZ = 10  # Grid Size
+cells_width = 160
+cells_height = 80
 time_delay = 0.1
 # Colors for grid
 BLACK = (78, 78, 78)  # Grid
@@ -21,6 +21,7 @@ CLEAR_FIELD = pygame.K_SPACE
 RANDOM_FILL = pygame.K_r
 SPEED_UP = pygame.K_RIGHT
 SLOW_DOWN = pygame.K_LEFT
+FILL = pygame.K_f
 
 running = True
 game_started = False
@@ -114,7 +115,7 @@ while running:
     for event in pygame.event.get():
         if event.type == QUIT:
             running = False
-
+        # Cell editing with mouse
         elif event.type == pygame.MOUSEBUTTONUP:
             if event.button == 1:
                 clk_x, clk_y = pygame.mouse.get_pos()
@@ -124,23 +125,27 @@ while running:
                 clk_x, clk_y = pygame.mouse.get_pos()
                 i, j = clk_x // GRSZ, clk_y // GRSZ
                 dead(i, j)
-
+        # Keyboard controls
         elif event.type == pygame.KEYDOWN:
+            # Clear Field
             if event.key == CLEAR_FIELD:
                 for i in range(cells_width):
                     for j in range(cells_height):
                         dead(i, j)
+            # Start/Stop Game
             elif event.key == START_GAME:
                 if game_started:
                     game_started = False
                 else:
                     game_started = True
                 print('Game started' if game_started else 'Game stopped')
+            # Steps speed control
             elif event.key == SPEED_UP:
                 if time_delay != 0:
                     time_delay -= 0.1
             elif event.key == SLOW_DOWN:
                 time_delay += 0.1
+            # Random Fill
             elif event.key == RANDOM_FILL:
                 for i in range(cells_width):
                     for j in range(cells_height):
