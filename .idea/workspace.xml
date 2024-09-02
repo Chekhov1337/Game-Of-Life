@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="09f0cebe-ff5b-40ce-8db8-b8b0f777afe7" name="Changes" comment="Add more interactions">
-      <change afterPath="$PROJECT_DIR$/class version.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/GameOfLife.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/GameOfLife.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="09f0cebe-ff5b-40ce-8db8-b8b0f777afe7" name="Changes" comment="Refactor code. Add class version to another file. Add time calculations">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
@@ -128,7 +125,15 @@
       <option name="project" value="LOCAL" />
       <updated>1725205714126</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Refactor code. Add class version to another file. Add time calculations">
+      <option name="closed" value="true" />
+      <created>1725274310944</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1725274310944</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -137,6 +142,7 @@
     <MESSAGE value="Working algorithm, start/stop, time delay" />
     <MESSAGE value="Delete unused code" />
     <MESSAGE value="Add more interactions" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add more interactions" />
+    <MESSAGE value="Refactor code. Add class version to another file. Add time calculations" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor code. Add class version to another file. Add time calculations" />
   </component>
 </project>

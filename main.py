@@ -8,9 +8,9 @@ import random
 import statistics
 
 # Game settings
-GRSZ = 1  # Grid Size
-cells_width = 1280
-cells_height = 720
+GRSZ = 5  # Grid Size
+cells_width = 300
+cells_height = 150
 time_delay = 0.1
 # Colors for grid
 BLACK = (78, 78, 78)  # Grid
@@ -82,9 +82,8 @@ while running:
                 pygame.draw.rect(window, BLACK, square, 1)
 
     end_render = datetime.datetime.now()
-    print(f'Render time: {end_render - start_render}')
-
     start = datetime.datetime.now()
+
     if game_started:
 
         count_neighbours = {}
@@ -105,6 +104,7 @@ while running:
     delta = (end - start_render).total_seconds()
     if time_delay > delta:
         time.sleep(time_delay - delta)
+
     # if game_started:
     #     step_sum_time.append(delta.total_seconds())
     # if len(step_sum_time) == 100:
