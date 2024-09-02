@@ -5,9 +5,9 @@ from patterns import *
 from functions import *
 
 # Game settings
-GRSZ = 20  # Grid Size
-cells_width = 40
-cells_height = 30
+GRSZ = 20 # Grid Size
+cells_width = 70
+cells_height = 35
 time_delay = 0.1
 # Colors
 BLACK = (78, 78, 78)  # Grid
