@@ -39,9 +39,9 @@ while running:
 
     if pattern_mode and pattern:
         draw_pattern(window, pattern, GRSZ, GREEN)
-        draw_cells(window, cells_width, cells_height, GRSZ, 'white', BLACK)
+        draw_cells(window, field, cells_width, cells_height, GRSZ, 'white', BLACK)
     else:
-        draw_cells(window, cells_width, cells_height, GRSZ, 'white', BLACK)
+        draw_cells(window, field, cells_width, cells_height, GRSZ, 'white', BLACK)
 
     end_render = datetime.datetime.now()
     start = datetime.datetime.now()
