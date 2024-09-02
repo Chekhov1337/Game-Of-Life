@@ -15,12 +15,6 @@ time_delay = 0.1
 # Colors for grid
 BLACK = (78, 78, 78)  # Grid
 GREY = (100, 100, 100)  # Background
-# Control Keys
-START_GAME = pygame.K_F1
-CLEAR_FIELD = pygame.K_SPACE
-RANDOM_FILL = pygame.K_r
-SPEED_UP = pygame.K_RIGHT
-SLOW_DOWN = pygame.K_LEFT
 
 running = True
 game_started = False
@@ -29,20 +23,24 @@ window = pygame.display.set_mode((cells_width * GRSZ, cells_height * GRSZ))
 
 
 def undead(i, j):
-    field[j][i] = True
+    cell_l = field[j][i]
+    cell_l.alive = True
 
 
 def dead(i, j):
-    field[j][i] = False
+    cell_l = field[j][i]
+    cell_l.alive = False
 
 
-def check_neighbours(i, j):
+def check_neighbours(cell):
+    i = cell.i
+    j = cell.j
     n = 0
     neighbours = [[-1, 1], [0, 1], [1, 1], [-1, 0], [1, 0], [-1, -1], [0, -1], [1, -1]]
 
     for k, m in neighbours:
         if 0 <= i + k <= cells_width - 1 and 0 <= j + m <= cells_height - 1:
-            if field[j + m][i + k]:
+            if field[j + m][i + k].alive is True:
                 n += 1
 
     return n
@@ -64,21 +62,22 @@ class Cell():
             return 'X'
 
 
-field = [[False for i in range(cells_width)] for j in range(cells_height)]
-new_field = [[False for i in range(cells_width)] for j in range(cells_height)]
+field = [[Cell(False, i, j) for i in range(cells_width)] for j in range(cells_height)]
+new_field = [[Cell(False, i, j) for i in range(cells_width)] for j in range(cells_height)]
+
 step_sum_time = []
 
 while running:
     window.fill(GREY)
     start_render = datetime.datetime.now()
 
-    for j in range(cells_height):
-        for i in range(cells_width):
-            if field[j][i]:
-                square = Rect(i * GRSZ, j * GRSZ, GRSZ, GRSZ)
+    for row in field:
+        for cell in row:
+            if cell.alive:
+                square = Rect(cell.cx, cell.cy, GRSZ, GRSZ)
                 pygame.draw.rect(window, 'white', square)
             else:
-                square = Rect(i * GRSZ, j * GRSZ, GRSZ, GRSZ)
+                square = Rect(cell.cx, cell.cy, GRSZ, GRSZ)
                 pygame.draw.rect(window, BLACK, square, 1)
 
     end_render = datetime.datetime.now()
@@ -88,28 +87,29 @@ while running:
     if game_started:
 
         count_neighbours = {}
-        for j in range(cells_height):
-            for i in range(cells_width):
-                count_neighbours[(i, j)] = check_neighbours(i, j)
+        for row in field:
+            for cell in row:
+                count_neighbours[cell] = check_neighbours(cell)
 
         temp_field = field.copy()
-        for (i, j), n in count_neighbours.items():
-            if not temp_field[j][i]:
+        for cell, n in count_neighbours.items():
+            if not temp_field[cell.j][cell.i].alive:
                 if n == 3:
-                    undead(i, j)
+                    undead(cell.i, cell.j)
             else:
                 if n not in (2, 3):
-                    dead(i, j)
+                    dead(cell.i, cell.j)
+        time.sleep(time_delay)
+
 
     end = datetime.datetime.now()
-    delta = (end - start_render).total_seconds()
-    if time_delay > delta:
-        time.sleep(time_delay - delta)
-    # if game_started:
-    #     step_sum_time.append(delta.total_seconds())
-    # if len(step_sum_time) == 100:
-    #     print(f'Average time: {statistics.mean(step_sum_time)}')
-    #     running = False
+    print(f'One step time: {end - start}')
+    delta = end - start_render
+    if game_started:
+        step_sum_time.append(delta.total_seconds())
+    if len(step_sum_time) == 100:
+        print(f'AVerage time: {statistics.mean(step_sum_time)}')
+        running = False
 
     for event in pygame.event.get():
         if event.type == QUIT:
@@ -126,22 +126,22 @@ while running:
                 dead(i, j)
 
         elif event.type == pygame.KEYDOWN:
-            if event.key == CLEAR_FIELD:
+            if event.key == pygame.K_SPACE:
                 for i in range(cells_width):
                     for j in range(cells_height):
                         dead(i, j)
-            elif event.key == START_GAME:
+            elif event.key == pygame.K_F1:
                 if game_started:
                     game_started = False
                 else:
                     game_started = True
                 print('Game started' if game_started else 'Game stopped')
-            elif event.key == SPEED_UP:
+            elif event.key == pygame.K_RIGHT:
                 if time_delay != 0:
                     time_delay -= 0.1
-            elif event.key == SLOW_DOWN:
+            elif event.key == pygame.K_LEFT:
                 time_delay += 0.1
-            elif event.key == RANDOM_FILL:
+            elif event.key == pygame.K_r:
                 for i in range(cells_width):
                     for j in range(cells_height):
                         r = random.randint(0, 1)
@@ -149,6 +149,7 @@ while running:
                             dead(i, j)
                         else:
                             undead(i, j)
+
     pygame.display.flip()
 
     pygame.display.update()
