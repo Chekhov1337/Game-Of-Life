@@ -5,16 +5,17 @@ from pygame.locals import *
 import time
 import datetime
 import random
-import statistics
+from patterns import *
 
 # Game settings
-GRSZ = 10  # Grid Size
-cells_width = 160
-cells_height = 80
+GRSZ = 40  # Grid Size
+cells_width = 30
+cells_height = 20
 time_delay = 0.1
-# Colors for grid
+# Colors
 BLACK = (78, 78, 78)  # Grid
 GREY = (100, 100, 100)  # Background
+GREEN = (0, 100, 0)  # Background
 # Control Keys
 START_GAME = pygame.K_F1
 CLEAR_FIELD = pygame.K_SPACE
@@ -22,9 +23,11 @@ RANDOM_FILL = pygame.K_r
 SPEED_UP = pygame.K_RIGHT
 SLOW_DOWN = pygame.K_LEFT
 FILL = pygame.K_f
+PATTERN_MODE = pygame.K_p
 
 running = True
 game_started = False
+pattern_mode = False
 pygame.init()
 window = pygame.display.set_mode((cells_width * GRSZ, cells_height * GRSZ))
 
@@ -45,42 +48,41 @@ def check_neighbours(i, j):
         if 0 <= i + k <= cells_width - 1 and 0 <= j + m <= cells_height - 1:
             if field[j + m][i + k]:
                 n += 1
-
     return n
-
-
-class Cell():
-    def __init__(self, alive=False, i=0, j=0):
-        self.alive = alive
-        self.i = i
-        self.j = j
-
-        self.cx = i * GRSZ
-        self.cy = j * GRSZ
-
-    def __str__(self):
-        if self.alive:
-            return 'O'
-        else:
-            return 'X'
 
 
 field = [[False for i in range(cells_width)] for j in range(cells_height)]
 new_field = [[False for i in range(cells_width)] for j in range(cells_height)]
 step_sum_time = []
+pattern = glider
 
 while running:
     window.fill(GREY)
     start_render = datetime.datetime.now()
 
-    for j in range(cells_height):
-        for i in range(cells_width):
-            if field[j][i]:
-                square = Rect(i * GRSZ, j * GRSZ, GRSZ, GRSZ)
-                pygame.draw.rect(window, 'white', square)
-            else:
-                square = Rect(i * GRSZ, j * GRSZ, GRSZ, GRSZ)
-                pygame.draw.rect(window, BLACK, square, 1)
+    if pattern_mode and pattern:
+        sx, sy = pygame.mouse.get_pos()
+        si, sj = sx // GRSZ, sy // GRSZ
+        for pi, pj in pattern:
+            square = Rect((si + pi) * GRSZ, (sj + pj) * GRSZ, GRSZ, GRSZ)
+            pygame.draw.rect(window, GREEN, square)
+        for j in range(cells_height):
+            for i in range(cells_width):
+                if field[j][i]:
+                    square = Rect(i * GRSZ, j * GRSZ, GRSZ, GRSZ)
+                    pygame.draw.rect(window, 'white', square)
+                else:
+                    square = Rect(i * GRSZ, j * GRSZ, GRSZ, GRSZ)
+                    pygame.draw.rect(window, BLACK, square, 1)
+    else:
+        for j in range(cells_height):
+            for i in range(cells_width):
+                if field[j][i]:
+                    square = Rect(i * GRSZ, j * GRSZ, GRSZ, GRSZ)
+                    pygame.draw.rect(window, 'white', square)
+                else:
+                    square = Rect(i * GRSZ, j * GRSZ, GRSZ, GRSZ)
+                    pygame.draw.rect(window, BLACK, square, 1)
 
     end_render = datetime.datetime.now()
     start = datetime.datetime.now()
@@ -106,7 +108,6 @@ while running:
         if time_delay > delta:
             time.sleep(time_delay - delta)
 
-
     # if game_started:
     #     step_sum_time.append(delta.total_seconds())
     # if len(step_sum_time) == 100:
@@ -122,6 +123,10 @@ while running:
                 clk_x, clk_y = pygame.mouse.get_pos()
                 i, j = clk_x // GRSZ, clk_y // GRSZ
                 undead(i, j)
+                if pattern_mode:
+                    si, sj = clk_x // GRSZ, clk_y // GRSZ
+                    for pi, pj in pattern:
+                        undead(si + pi, sj + pj)
             elif event.button == 3:
                 clk_x, clk_y = pygame.mouse.get_pos()
                 i, j = clk_x // GRSZ, clk_y // GRSZ
@@ -155,6 +160,12 @@ while running:
                             dead(i, j)
                         else:
                             undead(i, j)
+            # Pattern Mode
+            elif event.key == PATTERN_MODE:
+                if pattern_mode:
+                    pattern_mode = False
+                else:
+                    pattern_mode = True
     pygame.display.flip()
 
     pygame.display.update()
