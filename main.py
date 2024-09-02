@@ -101,10 +101,11 @@ while running:
                 if n not in (2, 3):
                     dead(i, j)
 
-    end = datetime.datetime.now()
-    delta = (end - start_render).total_seconds()
-    if time_delay > delta:
-        time.sleep(time_delay - delta)
+        end = datetime.datetime.now()
+        delta = (end - start_render).total_seconds()
+        if time_delay > delta:
+            time.sleep(time_delay - delta)
+
 
     # if game_started:
     #     step_sum_time.append(delta.total_seconds())
