@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="09f0cebe-ff5b-40ce-8db8-b8b0f777afe7" name="Changes" comment="Pattern mode">
+    <list default="true" id="09f0cebe-ff5b-40ce-8db8-b8b0f777afe7" name="Changes" comment="Minor fix">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/patterns.py" beforeDir="false" afterPath="$PROJECT_DIR$/patterns.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,6 +54,11 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Chekhov\PycharmProjects\GameOfLife" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="GameOfLife" />
@@ -149,7 +155,31 @@
       <option name="project" value="LOCAL" />
       <updated>1725285806940</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Split code to different files">
+      <option name="closed" value="true" />
+      <created>1725287390336</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1725287390336</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Split code to different files">
+      <option name="closed" value="true" />
+      <created>1725287425972</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1725287425972</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Minor fix">
+      <option name="closed" value="true" />
+      <created>1725287524438</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1725287524438</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -161,6 +191,8 @@
     <MESSAGE value="Refactor code. Add class version to another file. Add time calculations" />
     <MESSAGE value="Minor fixes" />
     <MESSAGE value="Pattern mode" />
-    <option name="LAST_COMMIT_MESSAGE" value="Pattern mode" />
+    <MESSAGE value="Split code to different files" />
+    <MESSAGE value="Minor fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="Minor fix" />
   </component>
 </project>

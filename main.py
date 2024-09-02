@@ -6,8 +6,8 @@ from functions import *
 
 # Game settings
 GRSZ = 20  # Grid Size
-cells_width = 20
-cells_height = 20
+cells_width = 40
+cells_height = 30
 time_delay = 0.1
 # Colors
 BLACK = (78, 78, 78)  # Grid
@@ -123,6 +123,14 @@ while running:
                     pattern_mode = False
                 else:
                     pattern_mode = True
+            elif event.key == K_1:
+                pattern = glider
+            elif event.key == K_2:
+                pattern = lspaceship
+            elif event.key == K_3:
+                pattern = galaxy_oscillator
+            elif event.key == K_4:
+                pattern = tetris_idk_lol
     pygame.display.flip()
 
     pygame.display.update()
