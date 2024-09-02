@@ -6,10 +6,11 @@ import time
 import datetime
 import random
 from patterns import *
+from functions import *
 
 # Game settings
-GRSZ = 40  # Grid Size
-cells_width = 30
+GRSZ = 20  # Grid Size
+cells_width = 20
 cells_height = 20
 time_delay = 0.1
 # Colors
@@ -31,26 +32,6 @@ pattern_mode = False
 pygame.init()
 window = pygame.display.set_mode((cells_width * GRSZ, cells_height * GRSZ))
 
-
-def undead(i, j):
-    field[j][i] = True
-
-
-def dead(i, j):
-    field[j][i] = False
-
-
-def check_neighbours(i, j):
-    n = 0
-    neighbours = [[-1, 1], [0, 1], [1, 1], [-1, 0], [1, 0], [-1, -1], [0, -1], [1, -1]]
-
-    for k, m in neighbours:
-        if 0 <= i + k <= cells_width - 1 and 0 <= j + m <= cells_height - 1:
-            if field[j + m][i + k]:
-                n += 1
-    return n
-
-
 field = [[False for i in range(cells_width)] for j in range(cells_height)]
 new_field = [[False for i in range(cells_width)] for j in range(cells_height)]
 step_sum_time = []
@@ -61,28 +42,10 @@ while running:
     start_render = datetime.datetime.now()
 
     if pattern_mode and pattern:
-        sx, sy = pygame.mouse.get_pos()
-        si, sj = sx // GRSZ, sy // GRSZ
-        for pi, pj in pattern:
-            square = Rect((si + pi) * GRSZ, (sj + pj) * GRSZ, GRSZ, GRSZ)
-            pygame.draw.rect(window, GREEN, square)
-        for j in range(cells_height):
-            for i in range(cells_width):
-                if field[j][i]:
-                    square = Rect(i * GRSZ, j * GRSZ, GRSZ, GRSZ)
-                    pygame.draw.rect(window, 'white', square)
-                else:
-                    square = Rect(i * GRSZ, j * GRSZ, GRSZ, GRSZ)
-                    pygame.draw.rect(window, BLACK, square, 1)
+        draw_pattern(window, pattern, GRSZ, GREEN)
+        draw_cells(window, cells_width, cells_height, GRSZ, 'white', BLACK)
     else:
-        for j in range(cells_height):
-            for i in range(cells_width):
-                if field[j][i]:
-                    square = Rect(i * GRSZ, j * GRSZ, GRSZ, GRSZ)
-                    pygame.draw.rect(window, 'white', square)
-                else:
-                    square = Rect(i * GRSZ, j * GRSZ, GRSZ, GRSZ)
-                    pygame.draw.rect(window, BLACK, square, 1)
+        draw_cells(window, cells_width, cells_height, GRSZ, 'white', BLACK)
 
     end_render = datetime.datetime.now()
     start = datetime.datetime.now()
@@ -92,16 +55,16 @@ while running:
         count_neighbours = {}
         for j in range(cells_height):
             for i in range(cells_width):
-                count_neighbours[(i, j)] = check_neighbours(i, j)
+                count_neighbours[(i, j)] = check_neighbours(i, j, field, cells_width, cells_height)
 
         temp_field = field.copy()
         for (i, j), n in count_neighbours.items():
             if not temp_field[j][i]:
                 if n == 3:
-                    undead(i, j)
+                    undead(i, j, field)
             else:
                 if n not in (2, 3):
-                    dead(i, j)
+                    dead(i, j, field)
 
         end = datetime.datetime.now()
         delta = (end - start_render).total_seconds()
@@ -122,22 +85,20 @@ while running:
             if event.button == 1:
                 clk_x, clk_y = pygame.mouse.get_pos()
                 i, j = clk_x // GRSZ, clk_y // GRSZ
-                undead(i, j)
+                undead(i, j, field)
                 if pattern_mode:
-                    si, sj = clk_x // GRSZ, clk_y // GRSZ
-                    for pi, pj in pattern:
-                        undead(si + pi, sj + pj)
+                    create_pattern(clk_x, clk_y, pattern, GRSZ, field)
             elif event.button == 3:
                 clk_x, clk_y = pygame.mouse.get_pos()
                 i, j = clk_x // GRSZ, clk_y // GRSZ
-                dead(i, j)
+                dead(i, j, field)
         # Keyboard controls
         elif event.type == pygame.KEYDOWN:
             # Clear Field
             if event.key == CLEAR_FIELD:
                 for i in range(cells_width):
                     for j in range(cells_height):
-                        dead(i, j)
+                        dead(i, j, field)
             # Start/Stop Game
             elif event.key == START_GAME:
                 if game_started:
@@ -157,9 +118,9 @@ while running:
                     for j in range(cells_height):
                         r = random.randint(0, 1)
                         if r == 0:
-                            dead(i, j)
+                            dead(i, j, field)
                         else:
-                            undead(i, j)
+                            undead(i, j, field)
             # Pattern Mode
             elif event.key == PATTERN_MODE:
                 if pattern_mode:
