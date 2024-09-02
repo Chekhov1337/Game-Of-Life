@@ -1,7 +1,3 @@
-import datetime
-
-import pygame
-from pygame.locals import *
 import time
 import datetime
 import random
