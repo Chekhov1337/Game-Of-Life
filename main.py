@@ -5,6 +5,8 @@ import pygame
 import pygame_gui
 from patterns import *
 from functions import *
+from tkinter import *
+from tkinter import messagebox
 
 pygame.init()
 # Game settings
@@ -49,6 +51,9 @@ clear_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((GRSZ, GRS
 random_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((GRSZ, GRSZ * 4 + 120), (80, 40)),
                                              text='Random', manager=manager)
 
+help_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((GRSZ, GRSZ * 5 + 160), (80, 40)),
+                                           text='Help', manager=manager)
+
 field = [[False for i in range(cells_width)] for j in range(cells_height)]
 new_field = [[False for i in range(cells_width)] for j in range(cells_height)]
 step_sum_time = []
@@ -88,12 +93,16 @@ while running:
                             dead(i, j, field)
                         else:
                             undead(i, j, field)
+            elif event.ui_element == help_button:
+                messagebox.showinfo('Help','OK')
         # Cell editing with mouse
         elif event.type == pygame.MOUSEBUTTONUP:
             clk_x, clk_y = pygame.mouse.get_pos()
-            if not start_button.hover_point(clk_x, clk_y) and not patterns_button.hover_point(clk_x,
-                                                                                              clk_y) and not clear_button.hover_point(
-                    clk_x, clk_y) and not random_button.hover_point(clk_x, clk_y):
+            if (not start_button.hover_point(clk_x, clk_y)
+                    and not patterns_button.hover_point(clk_x, clk_y)
+                    and not clear_button.hover_point(clk_x, clk_y)
+                    and not random_button.hover_point(clk_x, clk_y)
+                    and not help_button.hover_point(clk_x, clk_y)):
                 if event.button == 1:
                     i, j = clk_x // GRSZ, clk_y // GRSZ
                     undead(i, j, field)

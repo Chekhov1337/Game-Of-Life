@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="09f0cebe-ff5b-40ce-8db8-b8b0f777afe7" name="Changes" comment="UI Start Button">
+    <list default="true" id="09f0cebe-ff5b-40ce-8db8-b8b0f777afe7" name="Changes" comment="More UI controls">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/theme.json" beforeDir="false" afterPath="$PROJECT_DIR$/theme.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -200,7 +199,15 @@
       <option name="project" value="LOCAL" />
       <updated>1725447664474</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="More UI controls">
+      <option name="closed" value="true" />
+      <created>1725449938724</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1725449938724</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -216,6 +223,7 @@
     <MESSAGE value="Minor fix" />
     <MESSAGE value="Add more patterns" />
     <MESSAGE value="UI Start Button" />
-    <option name="LAST_COMMIT_MESSAGE" value="UI Start Button" />
+    <MESSAGE value="More UI controls" />
+    <option name="LAST_COMMIT_MESSAGE" value="More UI controls" />
   </component>
 </project>
