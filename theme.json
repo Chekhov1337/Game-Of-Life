@@ -1,6 +1,13 @@
 {
   "button":
   {
-
+    "colours": {
+      "normal_border": "White",
+      "normal_bg": "White",
+      "normal_text": "Black",
+      "hovered_bg": "Black",
+      "hovered_text": "White",
+      "shape": "triangle"
+    }
   }
 }

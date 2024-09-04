@@ -33,12 +33,21 @@ window = pygame.display.set_mode((cells_width * GRSZ, cells_height * GRSZ))
 background = pygame.Surface((cells_width * GRSZ, cells_height * GRSZ))
 background.fill(pygame.Color(GREY))
 
-manager = pygame_gui.UIManager((cells_width * GRSZ, cells_height * GRSZ))
+manager = pygame_gui.UIManager((cells_width * GRSZ, cells_height * GRSZ), theme_path='theme.json')
 
 clock = pygame.time.Clock()
 
-start_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((GRSZ, GRSZ), (60, 40)), text='Start',
+start_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((GRSZ, GRSZ), (80, 40)), text='Start',
                                             manager=manager)
+
+patterns_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((GRSZ, GRSZ * 2 + 40), (80, 40)),
+                                               text='Patterns', manager=manager)
+
+clear_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((GRSZ, GRSZ * 3 + 80), (80, 40)),
+                                            text='Clear', manager=manager)
+
+random_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((GRSZ, GRSZ * 4 + 120), (80, 40)),
+                                             text='Random', manager=manager)
 
 field = [[False for i in range(cells_width)] for j in range(cells_height)]
 new_field = [[False for i in range(cells_width)] for j in range(cells_height)]
@@ -54,17 +63,37 @@ while running:
         manager.process_events(event)
         if event.type == QUIT:
             running = False
-        if event.type == pygame_gui.UI_BUTTON_START_PRESS:
-            if game_started:
-                game_started = False
-                start_button.set_text('Stop')
-            else:
-                game_started = True
-                start_button.set_text('Start')
+        if event.type == pygame_gui.UI_BUTTON_PRESSED:
+            if event.ui_element == start_button:
+                if game_started:
+                    game_started = False
+                    start_button.set_text('Stop')
+                else:
+                    game_started = True
+                    start_button.set_text('Start')
+            elif event.ui_element == clear_button:
+                for i in range(cells_width):
+                    for j in range(cells_height):
+                        dead(i, j, field)
+            elif event.ui_element == patterns_button:
+                if pattern_mode:
+                    pattern_mode = False
+                else:
+                    pattern_mode = True
+            elif event.ui_element == random_button:
+                for i in range(cells_width):
+                    for j in range(cells_height):
+                        r = random.randint(0, 1)
+                        if r == 0:
+                            dead(i, j, field)
+                        else:
+                            undead(i, j, field)
         # Cell editing with mouse
         elif event.type == pygame.MOUSEBUTTONUP:
             clk_x, clk_y = pygame.mouse.get_pos()
-            if not start_button.hover_point(clk_x, clk_y):
+            if not start_button.hover_point(clk_x, clk_y) and not patterns_button.hover_point(clk_x,
+                                                                                              clk_y) and not clear_button.hover_point(
+                    clk_x, clk_y) and not random_button.hover_point(clk_x, clk_y):
                 if event.button == 1:
                     i, j = clk_x // GRSZ, clk_y // GRSZ
                     undead(i, j, field)

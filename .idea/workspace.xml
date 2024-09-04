@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="09f0cebe-ff5b-40ce-8db8-b8b0f777afe7" name="Changes" comment="Minor fixes">
-      <change afterPath="$PROJECT_DIR$/theme.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/GameOfLife.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/GameOfLife.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="09f0cebe-ff5b-40ce-8db8-b8b0f777afe7" name="Changes" comment="UI Start Button">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/theme.json" beforeDir="false" afterPath="$PROJECT_DIR$/theme.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -194,7 +192,15 @@
       <option name="project" value="LOCAL" />
       <updated>1725290055081</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="UI Start Button">
+      <option name="closed" value="true" />
+      <created>1725447664474</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1725447664474</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -209,6 +215,7 @@
     <MESSAGE value="Split code to different files" />
     <MESSAGE value="Minor fix" />
     <MESSAGE value="Add more patterns" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add more patterns" />
+    <MESSAGE value="UI Start Button" />
+    <option name="LAST_COMMIT_MESSAGE" value="UI Start Button" />
   </component>
 </project>
